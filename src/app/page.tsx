@@ -217,10 +217,10 @@ export default function Home() {
                   onClick={() => handleActive(index)}
                   tabIndex={0}
                   className={clsx(
-                    "flex transition-all cursor-pointer py-2 px-3 h-[80px] rounded-tl-full rounded-bl-full",
+                    "flex w-full transition-all cursor-pointer py-2 px-3 h-[80px] rounded-tl-full rounded-bl-full",
                     isActive(index)
                       ? "bg-orange-500 w-full lg:w-[30rem] shadow-2xl"
-                      : "bg-white w-96 shadow-none",
+                      : "bg-white lg:w-96 w-[95%] shadow-none",
                     !isActive(index) &&
                       "hover:shadow-2xl hover:w-full lg:hover:w-[30rem]",
                     isActive(index) && index === 1
