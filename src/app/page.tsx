@@ -152,7 +152,7 @@ export default function Home() {
           <div className="flex flex-col justify-center gap-4 w-full lg:w-[30%] h-full text-center">
             <div
               className={clsx(
-                "text-black text-[150px] font-black  leading-[130.29px]",
+                "text-black text-[120px] md:text-[150px] font-black  leading-[130.29px]",
                 playFairDisplay.className
               )}
             >
