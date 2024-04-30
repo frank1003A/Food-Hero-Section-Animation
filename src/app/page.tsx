@@ -45,6 +45,8 @@ export default function Home() {
   const [, setIsOver] = useState(false);
   const [active, setActive] = useState(0);
   const [toggleView, setToggleView] = useState(false);
+  const [mount, setMount] = useState(false);
+  const [noti, setNoti] = useState<Array<string>>([]);
 
   const handleMouseEnter = () => setIsOver(true);
   const handleMouseLeave = () => setIsOver(false);
@@ -67,9 +69,20 @@ export default function Home() {
   const openNav = () => setToggleView(true);
   const closeNav = () => setToggleView(false);
 
+  const addNotfication = (name: string) => {
+    let nt = noti.concat();
+    let notAlert = `Added ${name} to cart`;
+    nt.push(notAlert);
+    setNoti(nt);
+  };
+
   useEffect(() => {
     setTwirl(true);
   }, [active]);
+
+  useEffect(() => {
+    setMount(true);
+  }, []);
 
   return (
     <>
@@ -100,10 +113,13 @@ export default function Home() {
           </Link>
           <div className="ml-auto flex gap-3 lg:gap-20">
             <ul className="navbar hidden md:flex gap-3 lg:gap-20">
-              {navItems.map((nav) => {
+              {navItems.map((nav, index) => {
                 return (
                   <li
-                    className="font-[inter] capitalize cursor-pointer"
+                    className={clsx(
+                      "font-[inter] capitalize cursor-pointer",
+                      index === 1 && "text-[#232323] font-bold"
+                    )}
                     key={nav.name}
                   >
                     <Link href={nav.url}>{nav.name}</Link>
@@ -113,7 +129,7 @@ export default function Home() {
             </ul>
             <div className="indicator w-fit h-fit">
               <span className="indicator-item translate-x-0 translate-y-0 badge badge-primary bg-orange-500 border-orange-500 indicator-bottom text-white w-[21px] h-[21px] text-[12px] px-[.3rem]">
-                3
+                {noti.length === 0 ? 3 : 3 + noti.length}
               </span>
               <button
                 className="btn btn-ghost btn-circle"
@@ -147,7 +163,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-full flex flex-col-reverse gap-3 lg:flex-row lg:h-full">
+        <div className="w-full flex flex-col-reverse gap-3 md:flex-col-reverse lg:flex-col 2xl:flex-row lg:h-full">
           {/** Hero Text */}
           <div className="flex flex-col justify-center gap-4 w-full lg:w-[30%] h-full text-center">
             <div
@@ -171,14 +187,48 @@ export default function Home() {
             </div>
           </div>
           {/** Central Image */}
-          <div className="flex relative">
+          <div className="flex flex-col relative w-full lg:max-w-[620px] h-fit z-0">
+            <div
+              onClick={openNav}
+              className={clsx(
+                "flex relative lg:hidden my-10 transition-all cursor-pointer py-2 px-3 h-[80px] rounded-full bg-orange-500 w-full shadow-2xl",
+                active === 1 && "bg-purple-500",
+                active === 2 && "bg-yellow-500",
+                active === 3 && "bg-red-500"
+              )}
+            >
+              <div className="flex gap-5">
+                <Image
+                  src={menus[active].img}
+                  alt={menus[active].name}
+                  width={60}
+                  height={60}
+                />
+
+                <div
+                  className={clsx(
+                    "flex flex-col justify-center gap-0 leading-4 py-0 transition-all ",
+                    "text-white"
+                  )}
+                >
+                  <span className=" text-[16px] font-bold font-['Inter'] uppercase leading-[30px]">
+                    {menus[active].name}
+                  </span>
+                  <span className="text-sm font-normal font-['Inter'] ">
+                    {menus[active].description}
+                  </span>
+                </div>
+              </div>
+              <span className="absolute right-4 top-1/2">V</span>
+            </div>
+
             <span
               className={clsx(
                 "flex items-center justify-center w-full h-full ",
                 "lg:fixed lg:top-1/2 lg:left-1/2 lg:transform lg:-translate-x-1/2 lg:-translate-y-1/2 lg:-z-0"
               )}
             >
-              {twirl && (
+              {twirl ? (
                 <Image
                   className="animate-swirl"
                   src={`/big${menus[active].img}`}
@@ -186,6 +236,8 @@ export default function Home() {
                   width={620}
                   height={600}
                 />
+              ) : (
+                ""
               )}
             </span>
           </div>
@@ -193,17 +245,19 @@ export default function Home() {
           <div
             onClick={() => setToggleView(false)}
             className={clsx(
-              "inset-0 bg-black/50 z-40 cursor-pointer",
+              "lg:hidden inset-0 bg-black/70 z-40 cursor-pointer",
               toggleView ? "fixed" : "hidden"
             )}
           ></div>
           {/** Menus Nav */}
           <ul
             role="menu"
+            onClick={() => setToggleView(false)}
             className={clsx(
-              "transition-all flex flex-col items-end lg:ml-auto max-w-92 lg:absolute lg:right-0 lg:top-36 gap-3 z-50 mt-5 lg:mt-0"
-              //"fixed right-0 translate-x-[100%] lg:translate-x-[-0%]",
-              //toggleView ? "translate-x-[-0%]" : "translate-x-[100%]"
+              "transition-all flex flex-col items-end  lg:ml-auto max-w-92 lg:right-0 lg:top-36 gap-3 z-50  lg:mt-0",
+              "-translate-x-[0%]  fixed inset-0 py-10 px-4 lg:p-0 items-center justify-center sm:items-end lg:justify-normal bg-transparent lg:translate-x-[-0%]",
+              "lg:h-fit lg:w-fit lg:translate-y-0",
+              toggleView ? "-translate-y-[0%] " : "translate-y-[100%]"
             )}
           >
             {menus.map((menu, index) => {
@@ -217,7 +271,7 @@ export default function Home() {
                   onClick={() => handleActive(index)}
                   tabIndex={0}
                   className={clsx(
-                    "flex w-full transition-all cursor-pointer py-2 px-3 h-[80px] rounded-tl-full rounded-bl-full",
+                    "flex w-full transition-all cursor-pointer py-2 px-3 h-[80px] rounded-full lg:rounded-none lg:right-0 lg:rounded-tl-full lg:rounded-bl-full",
                     isActive(index)
                       ? "bg-orange-500 w-full lg:w-[30rem] shadow-2xl"
                       : "bg-white lg:w-96 w-[95%] shadow-none",
@@ -231,7 +285,9 @@ export default function Home() {
                       : "bg-orange-500",
                     isActive(index) && index === 3
                       ? "bg-red-500"
-                      : "bg-orange-500"
+                      : "bg-orange-500",
+                    "opacity-0 lg:opacity-100",
+                    toggleView && "animate-slide-up lg:animate-none"
                   )}
                 >
                   <div className="flex gap-5">
@@ -263,9 +319,14 @@ export default function Home() {
         </div>
 
         {/** Order Button */}
-        <button className="btn text-white rounded-full bg-orange-500 z-50 fixed bottom-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          $20 -- Order now
-        </button>
+        <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-none w-fit h-fit">
+          <button
+            className="btn text-white rounded-full bg-orange-500 z-30"
+            onClick={() => addNotfication(menus[active].name)}
+          >
+            $20 -- Order now
+          </button>
+        </div>
       </main>
 
       {/** Notification Modal */}
@@ -279,15 +340,51 @@ export default function Home() {
           </form>
           <h3 className="font-bold text-lg font-[inter]">Notifications</h3>
           <div className="flex flex-col gap-2 mt-2">
-            <div className="flex items-center w-full bg-zinc-300 rounded-md p-2 ">
-              <span className="font-[inter]">🎉 Welcome to Xum </span>
+            <div className="flex w-full bg-zinc-300 rounded-md gap-2 p-2 ">
+              <div className="h-full flex justify-start">
+                <span>🎉</span>
+              </div>
+              <div>
+                <span className="font-[inter] text-[12px] font-bold">
+                  Welcome to Xum{" "}
+                </span>
+                <span className="text-ellipsis line-clamp-2 text-[12px] leading-4">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
+                  assumenda placeat culpa maiores a ipsam eius temporibus animi
+                  voluptates tempore, recusandae corrupti eaque quod unde et
+                  modi, omnis nulla doloremque.
+                </span>
+              </div>
             </div>
             <div className="flex items-center w-full bg-zinc-300 rounded-md p-2">
-              <span className="font-[inter]">Message</span>
+              <span className="text-ellipsis line-clamp-2 text-[12px] leading-4">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
+                assumenda placeat culpa maiores a ipsam eius temporibus animi
+                voluptates tempore, recusandae corrupti eaque quod unde et modi,
+                omnis nulla doloremque.
+              </span>
             </div>
             <div className="flex items-center w-full bg-zinc-300 rounded-md p-2">
-              <span className="font-[inter]">Message</span>
+              <span className="text-ellipsis line-clamp-2 text-[12px] leading-4">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
+                assumenda placeat culpa maiores a ipsam eius temporibus animi
+                voluptates tempore, recusandae corrupti eaque quod unde et modi,
+                omnis nulla doloremque.
+              </span>
             </div>
+            {noti.map((n) => {
+              return (
+                <div
+                  key={n}
+                  className="flex items-center w-full bg-zinc-300 rounded-md p-2 gap-2"
+                >
+                  <span>🎉</span>
+                  <span className="text-ellipsis line-clamp-2 text-[12px] leading-4">
+                    {n}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </dialog>
