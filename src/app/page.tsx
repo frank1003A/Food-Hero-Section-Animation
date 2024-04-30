@@ -191,7 +191,7 @@ export default function Home() {
             <div
               onClick={openNav}
               className={clsx(
-                "flex relative lg:hidden my-10 transition-all cursor-pointer py-2 px-3 h-[80px] rounded-full bg-orange-500 w-full shadow-2xl",
+                "flex items-center relative lg:hidden my-10 transition-all cursor-pointer py-2 px-3 h-[80px] rounded-full bg-orange-500 w-full shadow-2xl",
                 active === 1 && "bg-purple-500",
                 active === 2 && "bg-yellow-500",
                 active === 3 && "bg-red-500"
@@ -219,7 +219,23 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-              <span className="absolute right-4 top-1/2">V</span>
+              <span className="ml-auto">
+                <svg
+                  className="svg-icon"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    verticalAlign: "middle",
+                    fill: "white",
+                    overflow: "hidden",
+                  }}
+                  viewBox="0 0 1024 1024"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M537.819429 742.253714l259.437714-259.437714q10.825143-10.825143 10.825143-25.746286t-10.825143-25.746286l-58.294857-58.294857q-10.825143-10.825143-25.746286-10.825143t-25.746286 10.825143l-175.396571 175.396571-175.396571-175.396571q-10.825143-10.825143-25.746286-10.825143t-25.746286 10.825143l-58.294857 58.294857q-10.825143 10.825143-10.825143 25.746286t10.825143 25.746286l259.437714 259.437714q10.825143 10.825143 25.746286 10.825143t25.746286-10.825143zM950.930286 512q0 119.442286-58.88 220.306286t-159.744 159.744-220.306286 58.88-220.306286-58.88-159.744-159.744-58.88-220.306286 58.88-220.306286 159.744-159.744 220.306286-58.88 220.306286 58.88 159.744 159.744 58.88 220.306286z" />
+                </svg>
+              </span>
             </div>
 
             <span
