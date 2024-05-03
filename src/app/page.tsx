@@ -54,6 +54,7 @@ export default function Home() {
   const isActive = (index: number) => active === index;
 
   const handleActive = (index: number) => {
+    if (index === active) return;
     setActive(index);
     setTwirl(false);
 
@@ -86,7 +87,7 @@ export default function Home() {
 
   return (
     <>
-      <main className="w-full h-screen flex flex-col bg-zinc-50 px-3 py-10 md:px-16 relative overflow-x-hidden">
+      <main className=" w-full h-screen flex flex-col lg:bg-none bg-zinc-50 dark:bg-neutral-800 px-3 py-10 md:px-16 relative overflow-x-hidden">
         <div className="navbar justify-center max-h-16 bg-transparent text-neutral-content rounded-full z-40">
           <Link href={"/"} aria-label="xum logo">
             <svg
@@ -99,6 +100,7 @@ export default function Home() {
               <path
                 d="M26.9732 26.0147H7.09767M17.0354 26.0147V17.4966M21.2945 26.0147V20.3359M12.7764 26.0147V20.3359M26.9732 31.6934V16.5454C27.5003 16.3533 27.9844 16.0589 28.3974 15.6793C28.8105 15.2996 29.1446 14.842 29.3804 14.3329C29.6161 13.8238 29.749 13.2731 29.7714 12.7125C29.7938 12.1518 29.7052 11.5923 29.5108 11.066C29.3164 10.5397 29.0199 10.057 28.6384 9.64557C28.2569 9.23416 27.7979 8.90215 27.2877 8.66862C26.7775 8.43508 26.2263 8.30462 25.6655 8.28471C25.1048 8.2648 24.5457 8.35585 24.0202 8.55262C23.495 5.96028 20.5278 3.2998 17.0354 3.2998C13.543 3.2998 10.5759 5.96028 10.0506 8.55262C8.99069 8.16103 7.81864 8.20654 6.79228 8.67911C5.76592 9.15169 4.96932 10.0126 4.57774 11.0725C4.18616 12.1325 4.23166 13.3045 4.70424 14.3309C5.17682 15.3572 6.03776 16.1538 7.09767 16.5454V31.6934H26.9732Z"
                 stroke="black"
+                className="dark:stroke-white"
                 stroke-width="2.83936"
               />
               <path
@@ -107,6 +109,7 @@ export default function Home() {
               />
               <path
                 d="M70.5783 10.6024H74.6948V23.2464C74.6948 24.6661 74.3557 25.9083 73.6775 26.9731C73.0057 28.0378 72.0645 28.8681 70.854 29.4639C69.6435 30.0533 68.2333 30.348 66.6235 30.348C65.0074 30.348 63.594 30.0533 62.3835 29.4639C61.173 28.8681 60.2318 28.0378 59.56 26.9731C58.8882 25.9083 58.5522 24.6661 58.5522 23.2464V10.6024H62.6687V22.8947C62.6687 23.6362 62.8303 24.2953 63.1535 24.8721C63.4831 25.4488 63.9458 25.902 64.5415 26.2316C65.1373 26.5611 65.8313 26.7259 66.6235 26.7259C67.4221 26.7259 68.1161 26.5611 68.7055 26.2316C69.3012 25.902 69.7607 25.4488 70.084 24.8721C70.4135 24.2953 70.5783 23.6362 70.5783 22.8947V10.6024ZM78.0815 10.6024H83.1582L88.52 23.6837H88.7482L94.11 10.6024H99.1866V30.0723H95.1937V17.3998H95.0321L89.9935 29.9772H87.2746L82.236 17.3522H82.0744V30.0723H78.0815V10.6024Z"
+                className="dark:fill-white"
                 fill="black"
               />
             </svg>
@@ -118,7 +121,7 @@ export default function Home() {
                   <li
                     className={clsx(
                       "font-[inter] capitalize cursor-pointer",
-                      index === 1 && "text-[#232323] font-bold"
+                      index === 1 && "text-[#232323] dark:text-white font-bold"
                     )}
                     key={nav.name}
                   >
@@ -127,6 +130,7 @@ export default function Home() {
                 );
               })}
             </ul>
+
             <div className="indicator w-fit h-fit">
               <span className="indicator-item translate-x-0 translate-y-0 badge badge-primary bg-orange-500 border-orange-500 indicator-bottom text-white w-[21px] h-[21px] text-[12px] px-[.3rem]">
                 {noti.length === 0 ? 3 : 3 + noti.length}
@@ -160,6 +164,13 @@ export default function Home() {
                 </svg>
               </button>
             </div>
+            <button className="lg:hidden btn btn-ghost btn-circle">
+              <svg viewBox="0 0 100 80" width="30" height="30">
+                <rect width="100" height="10"></rect>
+                <rect y="30" width="80" height="10"></rect>
+                <rect y="60" width="60" height="10"></rect>
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -168,7 +179,7 @@ export default function Home() {
           <div className="flex flex-col justify-center gap-4 w-full lg:w-[30%] h-full text-center">
             <div
               className={clsx(
-                "text-black text-[120px] md:text-[150px] font-black  leading-[130.29px]",
+                "text-black dark:text-white text-[120px] md:text-[150px] font-black  leading-[130.29px]",
                 playFairDisplay.className
               )}
             >
@@ -176,7 +187,7 @@ export default function Home() {
               <br />
               Zone
             </div>
-            <div className="flex items-start gap-1">
+            <div className="flex gap-1 items-center justify-center">
               <div
                 className={clsx(
                   "text-zinc-500 text-lg font-normal font-['Inter'] uppercase leading-[26.96px]"
@@ -189,20 +200,19 @@ export default function Home() {
           {/** Central Image */}
           <div className="flex flex-col relative w-full lg:max-w-[620px] h-fit z-0">
             <div
-              onClick={openNav}
               className={clsx(
-                "flex items-center relative lg:hidden my-10 transition-all cursor-pointer py-2 px-3 h-[80px] rounded-full bg-orange-500 w-full shadow-2xl",
+                "flex items-center relative lg:hidden my-10 transition-all cursor-pointer py-2 px-3 h-[80px] rounded-full bg-orange-500 w-full shadow-lg",
                 active === 1 && "bg-purple-500",
                 active === 2 && "bg-yellow-500",
                 active === 3 && "bg-red-500"
               )}
             >
-              <div className="flex gap-5">
+              <div className="flex gap-5 items-center">
                 <Image
                   src={menus[active].img}
                   alt={menus[active].name}
                   width={60}
-                  height={60}
+                  height={30}
                 />
 
                 <div
@@ -219,23 +229,24 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-              <span className="ml-auto">
+              <button
+                onClick={openNav}
+                className="btn btn-ghost btn-circle ml-auto"
+              >
                 <svg
-                  className="svg-icon"
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    verticalAlign: "middle",
-                    fill: "white",
-                    overflow: "hidden",
-                  }}
-                  viewBox="0 0 1024 1024"
+                  fill="#FFFFFF"
+                  height="20px"
+                  width="20px"
                   version="1.1"
+                  id="Layer_1"
                   xmlns="http://www.w3.org/2000/svg"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 407.437 407.437"
+                  xmlSpace="preserve"
                 >
-                  <path d="M537.819429 742.253714l259.437714-259.437714q10.825143-10.825143 10.825143-25.746286t-10.825143-25.746286l-58.294857-58.294857q-10.825143-10.825143-25.746286-10.825143t-25.746286 10.825143l-175.396571 175.396571-175.396571-175.396571q-10.825143-10.825143-25.746286-10.825143t-25.746286 10.825143l-58.294857 58.294857q-10.825143 10.825143-10.825143 25.746286t10.825143 25.746286l259.437714 259.437714q10.825143 10.825143 25.746286 10.825143t25.746286-10.825143zM950.930286 512q0 119.442286-58.88 220.306286t-159.744 159.744-220.306286 58.88-220.306286-58.88-159.744-159.744-58.88-220.306286 58.88-220.306286 159.744-159.744 220.306286-58.88 220.306286 58.88 159.744 159.744 58.88 220.306286z" />
+                  <polygon points="386.258,91.567 203.718,273.512 21.179,91.567 0,112.815 203.718,315.87 407.437,112.815 " />
                 </svg>
-              </span>
+              </button>
             </div>
 
             <span
@@ -284,13 +295,11 @@ export default function Home() {
                   aria-label={menu.name}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
-                  onClick={() => handleActive(index)}
-                  tabIndex={0}
                   className={clsx(
-                    "flex w-full transition-all cursor-pointer py-2 px-3 h-[80px] rounded-full lg:rounded-none lg:right-0 lg:rounded-tl-full lg:rounded-bl-full",
+                    "flex w-full transition-all cursor-pointer h-[80px] rounded-full lg:rounded-none lg:right-0 lg:rounded-tl-full lg:rounded-bl-full",
                     isActive(index)
                       ? "bg-orange-500 w-full lg:w-[30rem] shadow-2xl"
-                      : "bg-white lg:w-96 w-[95%] shadow-none",
+                      : "bg-white dark:bg-neutral-600 lg:w-96 w-[95%] shadow-none",
                     !isActive(index) &&
                       "hover:shadow-2xl hover:w-full lg:hover:w-[30rem]",
                     isActive(index) && index === 1
@@ -306,7 +315,10 @@ export default function Home() {
                     toggleView && "animate-slide-up lg:animate-none"
                   )}
                 >
-                  <div className="flex gap-5">
+                  <button
+                    onClick={() => handleActive(index)}
+                    className="flex justify-start gap-5 w-full h-full  py-2 px-3 rounded-[inherit]"
+                  >
                     <Image
                       src={menu.img}
                       alt={menu.name}
@@ -316,18 +328,20 @@ export default function Home() {
 
                     <div
                       className={clsx(
-                        "flex flex-col justify-center gap-0 leading-4 py-0 transition-all ",
-                        isActive(index) ? "text-white" : "text-zinc-800"
+                        "flex flex-col items-start h-full justify-center gap-0 leading-4 py-0 transition-all ",
+                        isActive(index)
+                          ? "text-white"
+                          : "text-zinc-800 dark:text-white"
                       )}
                     >
                       <span className=" text-[16px] font-bold font-['Inter'] uppercase leading-[30px]">
                         {menu.name}
                       </span>
-                      <span className="text-sm font-normal font-['Inter'] ">
+                      <span className="text-sm font-normal font-['Inter'] text-left">
                         {menu.description}
                       </span>
                     </div>
-                  </div>
+                  </button>
                 </li>
               );
             })}
@@ -346,8 +360,8 @@ export default function Home() {
       </main>
 
       {/** Notification Modal */}
-      <dialog id="notification_modal" className="modal" ref={modalRef}>
-        <div className="modal-box  border-2 border-orange-500">
+      <dialog id="notification_modal" className="modal " ref={modalRef}>
+        <div className="modal-box  border-2 border-orange-500 dark:bg-neutral-800">
           <form method="dialog">
             {/* if there is a button in form, it will close the modal */}
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -356,15 +370,15 @@ export default function Home() {
           </form>
           <h3 className="font-bold text-lg font-[inter]">Notifications</h3>
           <div className="flex flex-col gap-2 mt-2">
-            <div className="flex w-full bg-zinc-300 rounded-md gap-2 p-2 ">
+            <div className="flex w-full bg-zinc-300 dark:bg-neutral-600 rounded-md gap-2 p-2 ">
               <div className="h-full flex justify-start">
                 <span>🎉</span>
               </div>
               <div>
-                <span className="font-[inter] text-[12px] font-bold">
+                <span className="font-[inter] text-[12px] dark:text-white  font-bold">
                   Welcome to Xum{" "}
                 </span>
-                <span className="text-ellipsis line-clamp-2 text-[12px] leading-4">
+                <span className="text-ellipsis line-clamp-2 text-[12px] dark:text-white leading-4">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
                   assumenda placeat culpa maiores a ipsam eius temporibus animi
                   voluptates tempore, recusandae corrupti eaque quod unde et
@@ -372,16 +386,16 @@ export default function Home() {
                 </span>
               </div>
             </div>
-            <div className="flex items-center w-full bg-zinc-300 rounded-md p-2">
-              <span className="text-ellipsis line-clamp-2 text-[12px] leading-4">
+            <div className="flex items-center w-full bg-zinc-300 dark:bg-neutral-600 rounded-md p-2">
+              <span className="text-ellipsis line-clamp-2 text-[12px] dark:text-white leading-4">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
                 assumenda placeat culpa maiores a ipsam eius temporibus animi
                 voluptates tempore, recusandae corrupti eaque quod unde et modi,
                 omnis nulla doloremque.
               </span>
             </div>
-            <div className="flex items-center w-full bg-zinc-300 rounded-md p-2">
-              <span className="text-ellipsis line-clamp-2 text-[12px] leading-4">
+            <div className="flex items-center w-full bbg-zinc-300 dark:bg-neutral-600 rounded-md p-2">
+              <span className="text-ellipsis line-clamp-2 text-[12px] dark:text-white leading-4">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
                 assumenda placeat culpa maiores a ipsam eius temporibus animi
                 voluptates tempore, recusandae corrupti eaque quod unde et modi,
@@ -392,10 +406,10 @@ export default function Home() {
               return (
                 <div
                   key={n}
-                  className="flex items-center w-full bg-zinc-300 rounded-md p-2 gap-2"
+                  className="flex items-center w-full bg-zinc-300 dark:bg-neutral-600 rounded-md p-2 gap-2"
                 >
                   <span>🎉</span>
-                  <span className="text-ellipsis line-clamp-2 text-[12px] leading-4">
+                  <span className="text-ellipsis line-clamp-2 text-[12px] dark:text-white leading-4">
                     {n}
                   </span>
                 </div>
